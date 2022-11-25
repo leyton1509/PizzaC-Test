@@ -36,6 +36,7 @@ public class PizzaController : ControllerBase
     [HttpPost]
     public IActionResult Create(Pizza pizza)
     {            
+        // This code will save the pizza and return a result
         PizzaService.Add(pizza);
         return CreatedAtAction(nameof(Create), new { id = pizza.Id }, pizza);
     }
@@ -46,6 +47,15 @@ public class PizzaController : ControllerBase
     public IActionResult Update(int id, Pizza pizza)
     {
         // This code will update the pizza and return a result
+        if (id != pizza.Id) return BadRequest();
+            
+        var existingPizza = PizzaService.Get(id);
+        if(existingPizza is null)
+            return NotFound();
+    
+        PizzaService.Update(pizza);           
+    
+        return NoContent();
     }
 
     // DELETE action
