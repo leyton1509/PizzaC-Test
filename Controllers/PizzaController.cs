@@ -64,5 +64,13 @@ public class PizzaController : ControllerBase
     public IActionResult Delete(int id)
     {
         // This code will delete the pizza and return a result
+        var pizza = PizzaService.Get(id);
+   
+        if (pizza is null)
+            return NotFound();
+        
+        PizzaService.Delete(id);
+    
+        return NoContent();
     }
 }
